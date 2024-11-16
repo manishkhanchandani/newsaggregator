@@ -1,5 +1,33 @@
-npx ts-node src/index.ts
-tsconfig-paths' is not recognized as an internal or external command,
-operable program or batch file.
-'src' is not recognized as an internal or external command,
-operable program or batch file.
+Root Folder
+yarn install
+
+client folder
+yarn install
+
+Development
+
+go to root folder, run
+yarn run both
+
+or terminal 1
+yarn run dev
+
+and terminal 2
+cd client
+yarn run start
+
+For Server:
+http://localhost:4000/
+and for client:
+http://localhost:3000/
+
+Production:
+client folder
+
+yarn run build
+
+root folder
+yarn run build
+yarn run prod
+
+Go to http://localhost:4001/

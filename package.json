@@ -4,8 +4,12 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
-    "start": "node dist/index.js",
-    "dev": "nodemon -r tsconfig-paths/register src/index.ts"
+    "prod": "set NODE_ENV=production&&node dist/index.js",
+    "dev": "set NODE_ENV=development&&nodemon -r tsconfig-paths/register src/index.ts",
+    "startlmac": "NODE_ENV=production node dist/index.js",
+    "devmac": "NODE_ENV=development nodemon -r tsconfig-paths/register src/index.ts",
+    "client": "cd client && yarn start",
+    "both": "concurrently \"yarn run dev\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
