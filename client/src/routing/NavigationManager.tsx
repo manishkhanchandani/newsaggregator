@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import ScrollToTop from '../utils/ScrollToTop';
+import MenuBar from './MenuBar';
 
 interface NavigationManagerProps {
   children: ReactElement;
@@ -9,9 +10,8 @@ const NavigationManager: React.FC<NavigationManagerProps> = ({ children }) => {
   return (
     <ScrollToTop>
       <div>
-        <h1>Header</h1>
-        {children}
-        <h1>Footer</h1>
+        <MenuBar />
+        <div style={{ padding: 20 }}>{children}</div>
       </div>
     </ScrollToTop>
   );

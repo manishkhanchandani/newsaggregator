@@ -111,3 +111,24 @@ assumptions clearly in README or code comments.
 
 
   // "exec": "concurrently \"npx tsc --watch\" \"ts-node -r tsconfig-paths/register src/index.ts\"",
+
+Front End
+Home Page
+
+  View News Articles: Display a list of news articles related to state legislation.
+Each article should include:
+■ Title
+■ Published date
+■ State
+■ Summary or description
+■ Link to the full article
+
+Filter News: Allow users to filter news by state (e.g., California, Indiana) and/or
+by topic (e.g., education, health)
+
+Search Articles: Implement a simple search functionality to find news articles by
+keywords in the title or description.
+
+News Aggregation: Simulate fetching news articles from an external API or a
+local dataset. You can use dummy data or an actual news API (like the NewsAPI
+or any other Public News API from this list).

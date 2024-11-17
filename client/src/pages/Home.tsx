@@ -1,0 +1,182 @@
+import React, { useCallback } from 'react';
+import myAxios from '../common/myAxios';
+import moment from 'moment';
+import Pagination from '@mui/material/Pagination';
+import FilterBox from '../components/FilterBox';
+import { useAtom } from 'jotai';
+import { newsObjectLS } from '../utils/newsStorage';
+import { NewsResultType, resultValueType } from '../common/types';
+
+const TIMEDIFF: number = 60 * 10 * 100000; // time cache
+
+const max = 100;
+
+export const getTotalPages = (
+  count: number,
+  recordsPerPage: number
+): number => {
+  return Math.floor(count / recordsPerPage);
+};
+
+export const fetchNews = async ({ q, page }: { q: string; page: number }) => {
+  const url = `/v2/everything?q=${encodeURIComponent(q)}&page=${page}`;
+  const response = await myAxios.get(url);
+  // const response = await axios.get('../data/data.json');
+  console.log('response: ', response);
+  return response.data;
+};
+
+const Home: React.FC = () => {
+  const [newsResult, setNewsResult] = useAtom(newsObjectLS);
+  const [news, setNews] = React.useState<NewsResultType | null>();
+  const [q, setQ] = React.useState<string>('');
+  const [page, setPage] = React.useState<number>(1);
+
+  console.log('newsResult: ', newsResult);
+  console.log('news: ', news);
+
+  const pages = React.useMemo(() => {
+    if (!news?.totalResults) {
+      return 0;
+    }
+    return getTotalPages(news?.totalResults, max);
+  }, [news?.totalResults]);
+
+  console.log('page: ', pages);
+
+  const stateKey: string = React.useMemo(() => {
+    return `${encodeURIComponent(q)}_${page}_${max}`;
+  }, [page, q]);
+
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+    window.scrollTo(0, 0);
+  };
+
+  const handleStateData = useCallback((key: string, data: NewsResultType) => {
+    setNewsResult((prev) => {
+      return { ...prev, [key]: data };
+    });
+  }, []);
+
+  const handleStateDelete = useCallback((key: string) => {
+    setNewsResult((prev: Record<string, resultValueType>) => {
+      return { ...prev, [key]: null };
+    });
+  }, []);
+
+  const handleStateDeleteAll = useCallback(() => {
+    setNewsResult({});
+  }, [setNewsResult]);
+
+  console.log('statekey: ', stateKey);
+
+  const getNews = React.useCallback(
+    async (forced?: boolean) => {
+      if (newsResult[stateKey] && !forced) {
+        const currentDate = new Date().getTime();
+        const pastDate = newsResult[stateKey]?.expiryRef;
+        if (pastDate) {
+          const diff = currentDate - pastDate;
+          const diffRound = Math.round(diff / 1000);
+          if (diffRound <= TIMEDIFF) {
+            // cache time not expired, return it
+            console.log(
+              'data from cache: ',
+              stateKey,
+              ', ',
+              newsResult[stateKey]
+            );
+            setNews(newsResult[stateKey]);
+            return;
+          }
+        }
+      }
+      if (!q) {
+        return;
+      }
+      console.log('fresh data: ', stateKey);
+      const r = await fetchNews({ page, q });
+      console.log('r is ', r);
+      handleStateData(stateKey, {
+        ...r,
+        expiryRef: new Date().getTime(),
+        stateKey
+      });
+      setNews(r);
+    },
+    [page, q, stateKey, handleStateData, newsResult]
+  );
+
+  React.useEffect(() => {
+    getNews();
+  }, [getNews]);
+
+  return (
+    <div>
+      <div id="filter-box">
+        <FilterBox setQ={setQ} />
+      </div>
+      <div id="content">
+        <ul>
+          {news?.articles?.map((record) => {
+            return (
+              <li key={record.url} style={{ marginBottom: '30px' }}>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  <div style={{ maxWidth: '150px', position: 'relative' }}>
+                    <img
+                      src={record.urlToImage}
+                      alt=""
+                      style={{
+                        width: '100%'
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}>
+                    <div
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: '14px',
+                        marginBottom: '10px'
+                      }}>
+                      {record.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '12px',
+                        marginBottom: '10px'
+                      }}>
+                      {record.description}
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'baseline',
+                        fontSize: '11px'
+                      }}>
+                      {moment(record.publishedAt).fromNow()}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div>
+          <Pagination count={pages} page={page} onChange={handlePageChange} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;

@@ -10,8 +10,7 @@ const Loadable = (Component: any) => (props: JSX.IntrinsicAttributes) => {
   );
 };
 
-const Home = Loadable(lazy(() => import('../components/Home')));
-const Home2 = Loadable(lazy(() => import('../components/Home2')));
+const Home = Loadable(lazy(() => import('../pages/Home')));
 
 export const routes = [
   {
@@ -25,10 +24,6 @@ export const routes = [
       {
         index: true,
         element: <Home />
-      },
-      {
-        path: '/home2',
-        element: <Home2 />
       }
     ]
   }
