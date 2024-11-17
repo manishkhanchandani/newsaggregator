@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
 import cron from 'node-cron';
+import pool from '../db/mysqlpool';
+import { createNews } from 'src/controller/News';
 
 const router = express.Router();
 
@@ -26,7 +28,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 // http://localhost:4000/news
 router.post('/', async (req: Request, res: Response) => {
   const body = req.body;
-  console.log('body: ', body);
+  await createNews(body);
   res.send({
     success: true,
     body
