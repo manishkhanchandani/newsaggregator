@@ -8,6 +8,8 @@ dotenv.config({
   path: path.join(__dirname, '..', `.env.${process.env.NODE_ENV}`)
 });
 
+console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
+
 const app: Express = express();
 const port = process.env.PORT ?? 4000;
 
