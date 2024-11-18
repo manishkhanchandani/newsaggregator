@@ -17,12 +17,11 @@ const router = express.Router();
 
 // http://localhost:4000/news?state=x&topic=y&search=keyword&page=0&totalRows=0
 router.get('/', async (req: Request, res: Response) => {
-  // done
   const searchParams = req.query;
   const params: GetAllNewsType = {
-    province: searchParams.province as string,
-    topic: searchParams.topic as string,
-    search: searchParams.search as string,
+    province: (searchParams.province as string) ?? '',
+    topic: (searchParams.topic as string) ?? '',
+    search: (searchParams.search as string) ?? '',
     max: (searchParams.max as string) ?? '10',
     totalRows: searchParams.totalRows as string,
     page: searchParams.page as string

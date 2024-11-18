@@ -7,6 +7,7 @@ import myAxios from '../common/myAxios';
 import { newsSingleObjectLS } from '../utils/newsStorage';
 import Loading from '../components/Loading';
 import { ArticleType, singleResultValueType } from '../common/types';
+import './Detail.css';
 
 const TIMEDIFF: number = 60 * 60 * 24; // time cache
 
@@ -109,8 +110,16 @@ const Detail = () => {
     setFlag(true);
   }, []);
   return (
-    <div>
-      <h1>{news?.title}</h1>
+    <div className="detail">
+      <h3>
+        <a
+          href={news?.url}
+          target="_blank"
+          rel="noreferrer"
+          className="detail_link">
+          {news?.title}
+        </a>
+      </h3>
 
       {error && (
         <div>
@@ -133,40 +142,27 @@ const Detail = () => {
               </div>
             )}
 
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                marginTop: '30px'
-              }}>
-              <div
-                style={{
-                  flex: 1,
-                  fontSize: '18px',
-                  marginBottom: '10px'
-                }}>
-                {news?.description}
+            <div className="detail_content">
+              <div className="detail_text">{news?.description}</div>
+              <div className="detail_text">
+                <div>
+                  <b>Content:</b>
+                </div>
+                <div>{news?.content}</div>
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'baseline',
-                  fontSize: '14px'
-                }}>
-                <a href={news?.url} target="_blank" rel="noreferrer">
-                  View Details
-                </a>
+              <div className="detail_text">
+                <b>Source:</b> {news?.source}
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'baseline',
-                  fontSize: '11px'
-                }}>
-                {moment(news?.publishedAt).fromNow()}
+              <div className="detail_text">
+                <b>Author:</b> {news?.author}
+              </div>
+              <div className="detail_meta_data">
+                <div>
+                  <a href={news?.url} target="_blank" rel="noreferrer">
+                    View Details
+                  </a>
+                </div>
+                <div>{moment(news?.publishedAt).fromNow()}</div>
               </div>
             </div>
           </div>
