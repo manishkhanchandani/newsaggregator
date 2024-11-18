@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import cron from 'node-cron';
 import {
-  fetchNews,
-  fetchNewsApi,
+  // fetchNews,
+  // fetchNewsApi,
   getNewsUrl,
   processNews
 } from '../controller/FetchApi/NewsApi';
