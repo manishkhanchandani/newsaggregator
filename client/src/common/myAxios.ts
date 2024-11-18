@@ -3,7 +3,7 @@ import axios from 'axios';
 const myAxios = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? 'http://localhost:4001'
+      ? 'http://parseserver.us:4001'
       : 'http://localhost:4000',
   timeout: 60000,
   headers: {
