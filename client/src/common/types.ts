@@ -63,4 +63,9 @@ export type NewsResultType = {
   expiryRef?: number | null;
 };
 
+export type ArticleTypeExt = ArticleType & {
+  expiryRef?: number;
+};
 export type resultValueType = NewsResultType | null | undefined;
+
+export type singleResultValueType = ArticleTypeExt | null | undefined;

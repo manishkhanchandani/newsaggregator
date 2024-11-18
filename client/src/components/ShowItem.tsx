@@ -1,9 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { ArticleType } from '../common/types';
-
-const nofoundimage =
-  'https://www.pngitem.com/pimgs/m/439-4390399_placeholder-image-newsletter-clipart-hd-png-download.png';
+import { nofoundimage } from '../common/constants';
 
 const ShowItem = ({ record }: { record: ArticleType }) => {
   return (
@@ -30,7 +29,7 @@ const ShowItem = ({ record }: { record: ArticleType }) => {
               fontSize: '14px',
               marginBottom: '10px'
             }}>
-            {record.title}
+            <Link to={`/detail/${record.id}`}>{record.title}</Link>
           </div>
           <div
             style={{

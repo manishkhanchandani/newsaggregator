@@ -173,3 +173,18 @@ export const getAllNews = async (params: GetAllNewsType) => {
     }
   }
 };
+
+export const getSingleNews = async (id: number) => {
+  const sql = 'SELECT * FROM articles WHERE id = ? and status = 1 LIMIT 1';
+  const reqParms = [id];
+
+  console.log('Parsed Query:', formatQuery(sql, [...reqParms]));
+
+  const [rows] = await pool.execute(sql, reqParms);
+
+  if (Array.isArray(rows) && rows.length > 0) {
+    return { success: true, ...rows[0] };
+  } else {
+    return { success: false, message: 'No Record Found' };
+  }
+};

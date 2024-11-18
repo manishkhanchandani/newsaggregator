@@ -11,6 +11,7 @@ const Loadable = (Component: any) => (props: JSX.IntrinsicAttributes) => {
 };
 
 const Home = Loadable(lazy(() => import('../pages/Home')));
+const Detail = Loadable(lazy(() => import('../pages/Detail')));
 
 export const routes = [
   {
@@ -24,6 +25,10 @@ export const routes = [
       {
         index: true,
         element: <Home />
+      },
+      {
+        path: '/detail/:id',
+        element: <Detail />
       }
     ]
   }

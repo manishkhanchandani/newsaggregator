@@ -13,13 +13,6 @@ const TIMEDIFF: number = 60 * 120; // time cache
 
 const max = 100;
 
-export const getTotalPages = (
-  count: number,
-  recordsPerPage: number
-): number => {
-  return Math.floor(count / recordsPerPage);
-};
-
 export const fetchNews = async ({
   q,
   province,
@@ -184,7 +177,6 @@ const Home: React.FC = () => {
         {loading && <Loading />}
         {news?.results?.rows && news?.results?.rows?.length > 0 && (
           <>
-            {' '}
             <ul>
               {news?.results?.rows?.map((record) => {
                 return <ShowItem key={record.objectId} record={record} />;

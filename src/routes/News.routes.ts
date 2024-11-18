@@ -6,7 +6,12 @@ import {
   getNewsUrl,
   processNews
 } from '../controller/FetchApi/NewsApi';
-import { createNews, getAllNews, GetAllNewsType } from '../controller/News';
+import {
+  createNews,
+  getAllNews,
+  GetAllNewsType,
+  getSingleNews
+} from '../controller/News';
 
 const router = express.Router();
 
@@ -39,10 +44,14 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
   const params = req.params;
   console.log('params: ', params);
-  res.send({
-    success: true,
-    params
-  });
+  const id = params?.id ? parseInt(params?.id, 10) : 0;
+  let result = {};
+  if (id) {
+    result = await getSingleNews(id);
+  } else {
+    result = { success: false, message: 'No ID provided.' };
+  }
+  res.send(result);
 });
 
 // http://localhost:4000/news
