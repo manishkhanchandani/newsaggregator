@@ -75,7 +75,7 @@ router.post('/', async (req: Request, res: Response) => {
   | minute
   second ( optional )
  */
-cron.schedule('0 * * * * *', async () => {
+cron.schedule('0 0 * * * *', async () => {
   console.log('fetching news at particular time defined');
   // await fetchNewsApi();
 });
