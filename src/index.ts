@@ -28,11 +28,13 @@ app.use('/news', Newsroutes);
 if (process.env.NODE_ENV === 'production') {
   console.log(
     'setting path',
-    path.resolve(__dirname, 'client', 'build', 'index.html')
+    path.resolve(__dirname, '..', 'client', 'build', 'index.html')
   );
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
+  app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
   app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(
+      path.resolve(__dirname, '..', 'client', 'build', 'index.html')
+    );
   });
 }
 
