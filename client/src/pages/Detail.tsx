@@ -153,6 +153,17 @@ const Detail = () => {
                   display: 'flex',
                   justifyContent: 'flex-end',
                   alignItems: 'baseline',
+                  fontSize: '14px'
+                }}>
+                <a href={news?.url} target="_blank" rel="noreferrer">
+                  View Details
+                </a>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'baseline',
                   fontSize: '11px'
                 }}>
                 {moment(news?.publishedAt).fromNow()}

@@ -27,6 +27,10 @@ export const routes = [
         element: <Home />
       },
       {
+        path: '/:page',
+        element: <Home />
+      },
+      {
         path: '/detail/:id',
         element: <Detail />
       }

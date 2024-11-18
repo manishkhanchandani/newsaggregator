@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import myAxios from '../common/myAxios';
+import { useParams, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Pagination from '@mui/material/Pagination';
 import FilterBox from '../components/FilterBox';
@@ -35,6 +36,8 @@ export const fetchNews = async ({
 
 const Home: React.FC = () => {
   // setting some state variables
+  const params = useParams();
+  const navigate = useNavigate();
   // getting data from jotai
   const [newsResult, setNewsResult] = useAtom(newsObjectLS);
   // local state variable to display the data
@@ -51,7 +54,9 @@ const Home: React.FC = () => {
   // flag to delay initial fetchihng
   const [flag, setFlag] = React.useState<boolean>(false);
   // for pagination purpose, page is set from 0 onwards
-  const [page, setPage] = React.useState<number>(0);
+  const [page, setPage] = React.useState<number>(
+    params?.page ? parseInt(params.page, 10) : 0
+  );
   // loading will show loading icon
   const [loading, setLoading] = React.useState<boolean>(false);
   // error will show if some error occured
@@ -86,6 +91,7 @@ const Home: React.FC = () => {
     value: number
   ) => {
     setPage(value - 1);
+    navigate(`/${value - 1}`);
     window.scrollTo(0, 0);
   };
 
