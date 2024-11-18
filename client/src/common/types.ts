@@ -18,9 +18,9 @@ export type SelectBoxProps = {
 };
 
 export type FilterBoxProps = {
-  state: string;
+  province: string;
   topic: string;
-  keyword: string;
+  q: string;
 };
 
 export type ArticleSourceType = {

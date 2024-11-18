@@ -1,3 +1,9 @@
+Demo is visible at:
+http://parseserver.us:4001/
+
+Github url is at
+https://github.com/manishkhanchandani/newsaggregator
+
 Root Folder
 yarn install
 

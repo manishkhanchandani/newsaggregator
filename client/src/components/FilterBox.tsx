@@ -19,11 +19,15 @@ const Item = styled(Paper)(({ theme }) => ({
   })
 }));
 
-const FilterBox = ({ setQ }: { setQ: (val: string) => void }) => {
+const FilterBox = ({
+  setVars
+}: {
+  setVars: React.Dispatch<React.SetStateAction<FilterBoxProps>>;
+}) => {
   const [inputState, setInputState] = React.useState<FilterBoxProps>({
-    state: '',
+    province: '',
     topic: '',
-    keyword: ''
+    q: ''
   });
 
   const handleChange = (e: changeEventProps) => {
@@ -34,7 +38,7 @@ const FilterBox = ({ setQ }: { setQ: (val: string) => void }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setQ(inputState.keyword);
+    setVars(inputState);
   };
 
   return (
@@ -44,13 +48,13 @@ const FilterBox = ({ setQ }: { setQ: (val: string) => void }) => {
           <Grid size={{ xs: 6, md: 3 }}>
             <Item>
               <SelectBox
-                name="state"
+                name="province"
                 label="State"
                 options={[
                   { key: 'california', label: 'California' },
                   { key: 'indiana', label: 'Indiana' }
                 ]}
-                value={inputState.state}
+                value={inputState.province}
                 handleChange={handleChange}
               />
             </Item>
@@ -76,12 +80,12 @@ const FilterBox = ({ setQ }: { setQ: (val: string) => void }) => {
           <Grid size={{ xs: 6, md: 3 }}>
             <Item>
               <TextField
-                name="keyword"
+                name="q"
                 label="Keyword"
                 variant="outlined"
                 type="search"
                 placeholder="keyword to search"
-                value={inputState.keyword}
+                value={inputState.q}
                 onChange={handleChange}
                 fullWidth
               />
