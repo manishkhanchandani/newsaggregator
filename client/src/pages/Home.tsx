@@ -147,6 +147,7 @@ const Home: React.FC = () => {
         });
         setNews(r);
       } catch (err: unknown) {
+        setNews(null);
         if (err instanceof Error) {
           setError(err.message);
         } else if (typeof err === 'string') {
