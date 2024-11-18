@@ -32,70 +32,75 @@ const FilterBox = ({ setQ }: { setQ: (val: string) => void }) => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log('inputState: ', inputState);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setQ(inputState.keyword);
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <Item>
-            <SelectBox
-              name="state"
-              label="State"
-              options={[
-                { key: 'california', label: 'California' },
-                { key: 'indiana', label: 'Indiana' }
-              ]}
-              value={inputState.state}
-              handleChange={handleChange}
-            />
-          </Item>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <Item>
+              <SelectBox
+                name="state"
+                label="State"
+                options={[
+                  { key: 'california', label: 'California' },
+                  { key: 'indiana', label: 'Indiana' }
+                ]}
+                value={inputState.state}
+                handleChange={handleChange}
+              />
+            </Item>
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <Item>
+              <SelectBox
+                name="topic"
+                label="Topic"
+                options={[
+                  { key: 'business', label: 'Business' },
+                  { key: 'entertainment', label: 'Entertainment' },
+                  { key: 'general', label: 'General' },
+                  { key: 'health', label: 'Health' },
+                  { key: 'sports', label: 'Sports' },
+                  { key: 'technology', label: 'Technology' }
+                ]}
+                value={inputState.topic}
+                handleChange={handleChange}
+              />
+            </Item>
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <Item>
+              <TextField
+                name="keyword"
+                label="Keyword"
+                variant="outlined"
+                type="search"
+                placeholder="keyword to search"
+                value={inputState.keyword}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Item>
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <Item>
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                onClick={handleSubmit}
+                sx={{ height: 55 }}>
+                Search
+              </Button>
+            </Item>
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <Item>
-            <SelectBox
-              name="topic"
-              label="Topic"
-              options={[
-                { key: 'business', label: 'Business' },
-                { key: 'entertainment', label: 'Entertainment' },
-                { key: 'general', label: 'General' },
-                { key: 'health', label: 'Health' },
-                { key: 'sports', label: 'Sports' },
-                { key: 'technology', label: 'Technology' }
-              ]}
-              value={inputState.topic}
-              handleChange={handleChange}
-            />
-          </Item>
-        </Grid>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <Item>
-            <TextField
-              name="keyword"
-              label="Keyword"
-              variant="outlined"
-              placeholder="keyword to search"
-              value={inputState.keyword}
-              onChange={handleChange}
-            />
-          </Item>
-        </Grid>
-        <Grid size={{ xs: 6, md: 3 }}>
-          <Item>
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleSubmit}
-              sx={{ height: 55 }}>
-              Search
-            </Button>
-          </Item>
-        </Grid>
-      </Grid>
+      </form>
     </Box>
   );
 };
