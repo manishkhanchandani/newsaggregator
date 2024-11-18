@@ -6,7 +6,7 @@ import {
   getNewsUrl,
   processNews
 } from '../controller/FetchApi/NewsApi';
-import { createNews, getAllNews, GetAllNewsType } from 'src/controller/News';
+import { createNews, getAllNews, GetAllNewsType } from '../controller/News';
 
 const router = express.Router();
 
