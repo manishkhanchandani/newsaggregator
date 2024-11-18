@@ -1,12 +1,18 @@
 import express, { Request, Response } from 'express';
 import cron from 'node-cron';
+import {
+  fetchNews,
+  fetchNewsApi,
+  getNewsUrl,
+  processNews
+} from '../controller/FetchApi/NewsApi';
 import { createNews, getAllNews, GetAllNewsType } from 'src/controller/News';
 
 const router = express.Router();
 
 // http://localhost:4000/news?state=x&topic=y&search=keyword&page=0&totalRows=0
 router.get('/', async (req: Request, res: Response) => {
-  const max: number = 2;
+  // done
   const searchParams = req.query;
   const params: GetAllNewsType = {
     province: searchParams.province as string,
@@ -16,6 +22,11 @@ router.get('/', async (req: Request, res: Response) => {
     totalRows: searchParams.totalRows as string,
     page: searchParams.page as string
   };
+
+  if (searchParams.search) {
+    const url = getNewsUrl(searchParams.search as string);
+    await processNews(url);
+  }
 
   const results = await getAllNews(params);
   res.send({
@@ -57,6 +68,7 @@ router.post('/', async (req: Request, res: Response) => {
  */
 cron.schedule('0 * * * * *', async () => {
   console.log('fetching news at particular time defined');
+  // await fetchNewsApi();
 });
 
 module.exports = router;

@@ -108,10 +108,6 @@ export type GetAllNewsType = {
   totalRows?: string;
 };
 
-type TotalRowsType = {
-  cnt: number;
-};
-
 export const getAllNews = async (params: GetAllNewsType) => {
   try {
     const { province, topic, search, max, page, totalRows } = params;
@@ -121,7 +117,7 @@ export const getAllNews = async (params: GetAllNewsType) => {
     const start: number = newPage * newMax;
 
     const sql =
-      'SELECT * FROM articles WHERE province LIKE ? and topic LIKE ? and (title LIKE ? OR description LIKE ?) LIMIT ? OFFSET ?';
+      'SELECT * FROM articles WHERE province LIKE ? and topic LIKE ? and (title LIKE ? OR description LIKE ?) and status = 1 LIMIT ? OFFSET ?';
     const reqParms = [
       `%${province}%`,
       `%${topic}%`,
@@ -141,6 +137,9 @@ export const getAllNews = async (params: GetAllNewsType) => {
       max: newMax,
       page: newPage,
       start,
+      province,
+      topic,
+      search,
       rows
     };
 
@@ -148,7 +147,7 @@ export const getAllNews = async (params: GetAllNewsType) => {
       let rows2;
 
       const sqlTotal =
-        'SELECT count(*) as cnt FROM articles WHERE province LIKE ? and topic LIKE ? and (title LIKE ? OR description LIKE ?)';
+        'SELECT count(*) as cnt FROM articles WHERE province LIKE ? and topic LIKE ? and (title LIKE ? OR description LIKE ?) and status = 1';
       const reqParms2 = [
         `%${province}%`,
         `%${topic}%`,
@@ -159,13 +158,11 @@ export const getAllNews = async (params: GetAllNewsType) => {
       [rows2] = await pool.execute(sqlTotal, reqParms2);
 
       if (Array.isArray(rows2) && rows2.length > 0 && 'cnt' in rows2[0]) {
-        const firstRecord = rows2[0];
-        results.totalRows = firstRecord.cnt;
+        results.totalRows = rows2[0].cnt;
       }
     }
 
     results.totalPages = Math.ceil(results.totalRows / newMax) - 1;
-
     return results;
   } catch (error: unknown) {
     console.log('error is ', error);

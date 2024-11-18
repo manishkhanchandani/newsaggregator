@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 dotenv.config({
   path: path.join(__dirname, '..', `.env.${process.env.NODE_ENV}`)
@@ -13,6 +14,7 @@ const port = process.env.PORT ?? 4000;
 app.set('port', port);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.get('/test', (_req: Request, res: Response) => {
   res.send('Express + TypeScript Server');

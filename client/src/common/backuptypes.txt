@@ -28,8 +28,7 @@ export type ArticleSourceType = {
   name: string;
 };
 export type ArticleType = {
-  id: number;
-  source: string;
+  source: ArticleSourceType;
   author: string;
   title: string;
   description: string;
@@ -37,29 +36,12 @@ export type ArticleType = {
   urlToImage: string;
   publishedAt: string;
   content: string;
-  publishedAtTime: number;
-  reference: string;
-  createdAt: string;
-  updatedAt: string;
-  objectId: string;
-  status: number;
-};
-
-export type ResultsType = {
-  totalRows: number;
-  totalPages: number;
-  max: number;
-  page: number;
-  start: number;
-  province: string;
-  topic: string;
-  search: string;
-  rows: ArticleType[];
 };
 
 export type NewsResultType = {
-  success: boolean;
-  results: ResultsType;
+  status: string;
+  totalResults: number;
+  articles: ArticleType[];
   expiryRef?: number | null;
 };
 
