@@ -17,7 +17,7 @@ export const fetchNews = async (id?: string) => {
   return response.data;
 };
 
-const Detail = () => {
+const Detail: React.FC = () => {
   const params = useParams();
   const { id } = params;
   // getting data from jotai
